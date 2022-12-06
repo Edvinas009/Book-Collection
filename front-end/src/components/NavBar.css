@@ -1,0 +1,37 @@
+.TopNav {
+  background-color: #1d1a1a;
+  opacity: 0.98;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  height: 40px;
+}
+.TopNav a {
+  color: #828282;
+  transition: 0.5s;
+  padding: 8px 15px 15px 30px;
+  text-decoration: none;
+  font-size: 18px;
+  float: left;
+}
+
+.TopNav a:hover {
+  color: #ffffff;
+  transition: 0.4s;
+}
+#RightButton {
+  background-color: #1d1a1a;
+  color: #828282;
+  transition: 0.5s;
+  text-decoration: none;
+  font-size: 17px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: inherit;
+}
+#RightButton:hover {
+  color: #ffffff;
+  transition: 0.4s;
+}
