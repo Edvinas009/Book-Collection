@@ -1,9 +1,4 @@
-import {
-  ReasonPhrases,
-  StatusCodes,
-  getReasonPhrase,
-  getStatusCode,
-} from "http-status-codes";
+import { StatusCodes } from "http-status-codes";
 
 export const handleErrors = (err: any) => {
   let customError = {

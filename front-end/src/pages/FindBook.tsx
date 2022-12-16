@@ -7,7 +7,6 @@ export default function FindBook() {
   const [inputText, setInputText] = useState("");
 
   let inputHandler = (e: React.FormEvent<EventTarget>): void => {
-    //convert input text to lower case
     var lowerCase = (e.target as HTMLInputElement).value.toLowerCase();
     setInputText(lowerCase);
   };

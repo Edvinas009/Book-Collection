@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";
 import path from "path";
@@ -6,10 +6,7 @@ import { handleErrors } from "../middleware/error-handler";
 import { Book } from "../models/book.model";
 import { BadRequestError } from "../errors/bad-request";
 import { NotFoundError } from "../errors/not-found";
-
-interface JwtPayload {
-  id: string;
-}
+import JwtPayload from "../models/JwtPayload";
 
 export const createBook = async (req: Request, res: Response) => {
   const authHeader = req.cookies.authorization;

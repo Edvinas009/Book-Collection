@@ -19,7 +19,7 @@ export default function Books() {
   const [image, setImage] = useState("");
   const [imageUrl, setImageUrl] = useState({ preview: "", data: "" });
 
-  const generateError = (error: any) =>
+  const generateError = (error: string) =>
     toast.error(error, {
       position: "bottom-right",
     });
@@ -37,16 +37,13 @@ export default function Books() {
       .post("http://localhost:5000/api/books/uploadImage", formData, {
         withCredentials: true,
       })
-      .then((res: any) => {
+      .then((res) => {
         console.log("File Upload success");
         setImage(`http://localhost:5000/img/${img.data.name}`);
       })
       .catch((err) => console.log("File Upload Error"));
   };
   const handleSubmit = async (event: any) => {
-    console.log(imageUrl);
-    console.log(author);
-
     event.preventDefault();
     try {
       const { data } = await axios.post(

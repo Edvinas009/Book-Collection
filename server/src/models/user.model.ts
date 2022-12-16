@@ -7,6 +7,7 @@ export interface UserInterface extends mongoose.Document {
   username: string;
   password: string;
   isAdmin: string;
+  userId: string;
 }
 
 const UserSchema: mongoose.Schema<UserInterface> = new mongoose.Schema({
@@ -31,7 +32,10 @@ const UserSchema: mongoose.Schema<UserInterface> = new mongoose.Schema({
   isAdmin: {
     type: Boolean,
     default: false,
-  }
+  },
+  userId: {
+    type: String,
+  },
 }).pre("save", async function () {
   if (!this.isModified("password")) return;
   const salt = await bcrypt.genSalt(10);

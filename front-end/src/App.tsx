@@ -8,6 +8,7 @@ import NavBar from "./components/NavBar";
 import "./index.css";
 import Books from "./pages/Books";
 import FindBook from "./pages/FindBook";
+import Users from "./pages/Users";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/find" element={<FindBook />} />
+          <Route path="/users" element={<Users />} />
         </Routes>
       </Router>
     </div>

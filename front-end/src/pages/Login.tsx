@@ -11,13 +11,11 @@ export default function Login() {
   const [cookies] = useCookies<string>([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (cookies.authorization) {
-      navigate("/");
-    }
-  }, [cookies, navigate]);
+  // function timeout(delay: number) {
+  //   return new Promise((res) => setTimeout(res, delay));
+  // }
 
-  const generateError = (error: any) =>
+  const generateError = (error: string) =>
     toast.error(error, {
       position: "bottom-right",
     });
@@ -38,7 +36,6 @@ export default function Login() {
           if (msg) generateError(msg);
           else if (status) generateError(status);
         } else {
-          // localStorage.setItem("authorization", data.token);
           navigate("/");
           window.location.reload();
         }
@@ -71,10 +68,18 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button className="buttonFront" type="submit">Login</button>
-        {/* <button onClick={getUser}>Get user</button> */}
+        <button className="buttonFront" type="submit">
+          Login
+        </button>
         <span>
-          Don't have an account?<Link to="/register"> Register</Link>
+          Don't have an account?
+          <Link
+            to="/register"
+            style={{ textDecoration: "none", fontWeight: "bold" }}
+          >
+            {" "}
+            Register
+          </Link>
         </span>
       </form>
       <ToastContainer />

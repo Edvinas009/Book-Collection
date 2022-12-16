@@ -1,5 +1,6 @@
 .buttonFront {
   margin-right: 10px;
+  margin-bottom: 10px;
   background-color: #fff;
   border: 1px solid #d5d9d9;
   border-radius: 8px;
@@ -18,5 +19,5 @@
   -webkit-user-select: none;
   touch-action: manipulation;
   vertical-align: middle;
-  width: 120px;
+  width: 100%;
 }

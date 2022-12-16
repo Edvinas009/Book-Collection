@@ -11,8 +11,7 @@ export default function List(props: any) {
   useEffect(() => {
     const getAllBooks = async () => {
       if (!cookies.authorization) {
-        // navigate("/login");
-        console.log(cookies.authorization);
+        navigate("/login");
       } else {
         const { data } = await axios.get("http://localhost:5000/api/books", {
           withCredentials: true,

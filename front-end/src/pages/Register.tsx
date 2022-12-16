@@ -11,7 +11,7 @@ export default function Register() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const generateError = (err: any) => {
+  const generateError = (err: string) => {
     toast.error(err, {
       position: "bottom-right",
     });
@@ -34,7 +34,7 @@ export default function Register() {
 
       if (data) {
         if (data.errors) {
-          const { statusCode, msg } = data.errors;
+          const { msg } = data.errors;
           console.log(data.errors);
           if (msg) generateError(msg);
         } else {
@@ -86,7 +86,14 @@ export default function Register() {
           Register
         </button>
         <span>
-          Already have an account ?<Link to="/login"> Login</Link>
+          Already have an account ?
+          <Link
+            to="/login"
+            style={{ textDecoration: "none", fontWeight: "bold" }}
+          >
+            {" "}
+            Login
+          </Link>
         </span>
       </form>
       <ToastContainer />

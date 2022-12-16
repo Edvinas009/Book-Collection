@@ -1,30 +1,24 @@
-import express, { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
 import { handleErrors } from "../middleware/error-handler";
 import { User } from "../models/user.model";
-import { CustomRequest } from "../middleware/user.auth";
-import { UnauthenticatedError } from "../errors/unauthenticated";
 import { BadRequestError } from "../errors/bad-request";
 import { NotFoundError } from "../errors/not-found";
+import JwtPayload from "../models/JwtPayload";
+import jwt from "jsonwebtoken";
 
-//Did not finished to implement admin rights. 
-//--------------------------------------------------------------------
 export const createUser = async (req: Request, res: Response) => {
   try {
-    const { title } = req.body;
-    const nameAlreadyExists = await User.findOne({ title });
+    const { email } = req.body;
+    const nameAlreadyExists = await User.findOne({ email });
     if (nameAlreadyExists) {
-      throw new BadRequestError("You already have this book");
+      throw new BadRequestError("User already exist");
     }
     const user = await User.create(req.body);
     if (!user) {
-      throw new BadRequestError("Please enter smt");
+      throw new BadRequestError("Please enter information");
     }
-    res
-      .status(StatusCodes.CREATED)
-      .json({ msg: "Inserted successfully", user });
+    res.status(StatusCodes.CREATED).json({ msg: "Created successfully", user });
   } catch (error) {
     const errors = handleErrors(error);
     res.json({ errors, status: false });
@@ -41,6 +35,21 @@ export const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
+export const getCurrentUser = async (req: Request, res: Response) => {
+  const authHeader = req.cookies.authorization;
+  try {
+    const { id } = jwt.verify(
+      authHeader,
+      process.env.JWT_SECRET!
+    ) as JwtPayload;
+
+    const user = await User.findById(id);
+    res.status(StatusCodes.OK).json({ user });
+  } catch (error) {
+    const errors = handleErrors(error);
+    res.json({ errors, status: false });
+  }
+};
 export const getUser = async (req: Request, res: Response) => {
   try {
     const { id: userId } = req.params;
@@ -54,9 +63,14 @@ export const getUser = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
   const { id: userId } = req.params;
 
-  const user = await User.findByIdAndUpdate({ _id: userId });
+  const user = await User.findByIdAndUpdate({ _id: userId }, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  console.log(user);
+
   if (!user) {
-    throw new NotFoundError(`Book not found with this id: ${userId}`);
+    throw new NotFoundError(`User not found with this id: ${userId}`);
   }
   res.status(StatusCodes.OK).json({ user });
 };
@@ -66,9 +80,9 @@ export const deleteUser = async (req: Request, res: Response) => {
 
   const user = await User.findOne({ _id: userId });
   if (!user) {
-    throw new NotFoundError(`Book not found with this id: ${userId}`);
+    throw new NotFoundError(`User not found with this id: ${userId}`);
   }
   await user.remove();
 
-  res.status(StatusCodes.OK).json({ msg: "Book removed successfully" });
+  res.status(StatusCodes.OK).json({ msg: "User removed successfully" });
 };

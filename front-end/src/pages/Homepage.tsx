@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import "./Homepage.css";
-import { Button, TextField } from "@mui/material";
+import { Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Stack from "@mui/material/Stack";
+import Book from "../components/Interface";
 
 export default function Homepage() {
   const navigate = useNavigate();
@@ -41,7 +42,6 @@ export default function Homepage() {
       }
     }
   }
-
   useEffect(() => {
     setThumnails(image);
     setDesc(description);
@@ -137,18 +137,18 @@ export default function Homepage() {
     const getAllBooks = async () => {
       if (!cookies.authorization) {
         navigate("/login");
-        console.log(cookies.authorization);
+        // console.log(cookies.authorization);
       } else {
         const { data } = await axios.get("http://localhost:5000/api/books", {
           withCredentials: true,
         });
 
         let books = data.book;
-        let images = data.book.map((elem: any) => [elem.image]);
-        let descriptions = data.book.map((elem: any) => [elem.description]);
-        let titles = data.book.map((elem: any) => [elem.title]);
-        let ids = data.book.map((elem: any) => [elem._id]);
-        let authors = data.book.map((elem: any) => [elem.author]);
+        let images = data.book.map((elem: Book) => [elem.image]);
+        let descriptions = data.book.map((elem: Book) => [elem.description]);
+        let titles = data.book.map((elem: Book) => [elem.title]);
+        let ids = data.book.map((elem: Book) => [elem._id]);
+        let authors = data.book.map((elem: Book) => [elem.author]);
         setBooks(books);
         setImage(images);
         setdescription(descriptions);

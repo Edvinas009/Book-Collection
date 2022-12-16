@@ -1,10 +1,11 @@
-import express, { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { handleErrors } from "../middleware/error-handler";
 import { User } from "../models/user.model";
 import { UnauthenticatedError } from "../errors/unauthenticated";
+import { BadRequestError } from "../errors/bad-request";
 const maxAge = 3 * 24 * 60 * 40;
 
 export const login = async (req: Request, res: Response) => {
@@ -35,11 +36,17 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const register = async (req: Request, res: Response) => {
-  const { email, username } = req.body;
+  const { email } = req.body;
   try {
     const emailAlreadyExists = await User.findOne({ email });
+
+    if (emailAlreadyExists) {
+      throw new BadRequestError("Email already taken");
+    }
     const user = await User.create(req.body);
-    res.status(StatusCodes.CREATED).json({ msg: "Hello ", user });
+    res
+      .status(StatusCodes.CREATED)
+      .json({ msg: `${user} Created successfully` });
   } catch (err) {
     const errors = handleErrors(err);
     res.json({ errors, status: false });
